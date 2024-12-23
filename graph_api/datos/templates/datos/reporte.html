@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Ventas</title>
+    <script>
+        // Función para cargar datos del reporte
+        document.addEventListener("DOMContentLoaded", function () {
+            const apiUrl = "/api/graph/"; // Ruta de la API
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Datos del reporte:", data);
+
+                    // Llenar la tabla con los datos de ventas
+                    const tabla = document.getElementById("ventas-tabla");
+                    data.datos.forEach(venta => {
+                        const fila = `
+                            <tr>
+                                <td>${venta.id}</td>
+                                <td>${venta.producto}</td>
+                                <td>${venta.cantidad}</td>
+                                <td>${venta.precio}</td>
+                                <td>${venta.fecha}</td>
+                            </tr>
+                        `;
+                        tabla.innerHTML += fila;
+                    });
+
+                    // Mostrar el gráfico
+                    const grafico = document.getElementById("grafico");
+                    grafico.src = `data:image/png;base64,${data.grafico}`;
+                })
+                .catch(error => {
+                    console.error("Error al cargar los datos:", error);
+                });
+        });
+    </script>
+</head>
+<body>
+    <h1>Reporte de Ventas</h1>
+
+    <!-- Tabla para los datos -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody id="ventas-tabla">
+            <!-- Filas generadas dinámicamente -->
+        </tbody>
+    </table>
+
+    <!-- Gráfico -->
+    <h2>Gráfico de Ventas</h2>
+    <img id="grafico" alt="Gráfico de Ventas" />
+
+</body>
+</html>

@@ -41,7 +41,18 @@ INSTALLED_APPS = [
     'datos',
     'rest_framework',
     'corsheaders',
+    'drf_spectacular',
 ]
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Graph Api',
+    'DESCRIPTION': 'API de graficos',
+    'VERSION': '1.0.0',
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
